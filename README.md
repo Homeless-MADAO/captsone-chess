@@ -2,7 +2,7 @@ Welcome to my Capstone Project!
 
 Here is the technical documentation and crediting of all my code, which is
 common practice within the industry. This README file lets any programmer know what
-my project does and what code repositories I 
+my project does and what code repositories I used.
 
 NOTE:
 DO NOT UPGRADE NODE VERSION. GLITCH DOES NOT WORK WITH LATEST VERSIONS
