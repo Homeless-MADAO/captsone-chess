@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      html {
+        visibility: hidden;
+        opacity: 0;
+      }
+    </style>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="Maritime Chess" />
+    <meta name="author" content="Dason Wang" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Maritime Chess</title>
+    <!-- Firebase -->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script
+      src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"
+      defer
+    ></script>
+
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
+
+    <!-- Redirect to https-->
+    <link rel="canonical" href="https://chessfinal-1.glitch.me" />
+    <!-- Icons referenced in manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Maritime Chess" />
+    <meta name="apple-mobile-web-app-title" content="Maritime Chess" />
+    <meta name="theme-color" content="#335" />
+    <meta name="msapplication-navbutton-color" content="#335" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="msapplication-starturl" content="/index.html" />
+    <link rel="icon" sizes="32x32" href="img/icons/32x32.png" />
+    <link rel="apple-touch-icon" sizes="32x32" href="img/icons/64.png" />
+    <link rel="icon" sizes="64x64" href="img/icons/64x64.png" />
+    <link rel="apple-touch-icon" sizes="64x64" href="img/icons/64.png" />
+    <link rel="icon" sizes="128x128" href="img/icons/128.png" />
+    <link rel="apple-touch-icon" sizes="128x128" href="img/icons/128.png" />
+    <link rel="icon" sizes="256x256" href="img/icons/256x256.png" />
+    <link rel="apple-touch-icon" sizes="256x256" href="img/icons/256.png" />
+    <link rel="icon" sizes="512x512" href="img/icons/512x512.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="img/icons/512.png" />
+
+    <!-- jQuery -->
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+      defer
+    ></script>
+
+    <!-- import chessboard.js, a javascript library which renders the chessboard -->
+    <script src="js/chessboard-1.0.0.min.js" defer></script>
+    <link
+      rel="preload"
+      href="css/chessboard-1.0.0.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript
+      ><link rel="stylesheet" href="css/chessboard-1.0.0.css"
+    /></noscript>
+
+    <!-- import chess.js, a javascript library which validates moves and sets the rules -->
+    <script src="chessrules/chess.min.js" defer></script>
+
+    <!-- STYLESHEETS-->
+    <link
+      rel="preload"
+      href="style.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript><link rel="stylesheet" href="style.css" /></noscript>
+    <link
+      rel="preload"
+      href="text.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript><link rel="stylesheet" href="text.css" /></noscript>
+
+    <!-- import the webpage's javascript file -->
+    <script src="script.min.js" defer></script>
+
+    <!-- import the secondary js file, which codes for webpage effects -->
+    <script src="effects.js" defer></script>
+
+    <!-- Google Material Design Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+
+    <!--Title Font-->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cousine&display=swap"
+      rel="stylesheet"
+    />
+    <!--Main Font-->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <!--Mono-->
+    <link
+      href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
+      rel="stylesheet"
+    />
+
+    <!--Code to make it installable-->
+    <script>
+      let deferredPrompt;
+      window.addEventListener("beforeinstallprompt", (event) => {
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        event.preventDefault();
+
+        // Stash the event so it can be triggered later.
+        deferredPrompt = event;
+
+        // Attach the install prompt to a user gesture
+        document
+          .querySelector("#download")
+          .addEventListener("click", (event) => {
+            // Show the prompt
+            deferredPrompt.prompt();
+
+            // Wait for the user to respond to the prompt
+            deferredPrompt.userChoice.then((choiceResult) => {
+              if (choiceResult.outcome === "accepted") {
+                console.log("User accepted the A2HS prompt");
+                // Update UI notify the user they can add to home screen
+                document.querySelector("#downloadBut").style.display = "none";
+                document.querySelector("#download").innerHTML = "Thank you for installing!"
+              } else {
+                console.log("User dismissed the A2HS prompt");
+              }
+              deferredPrompt = null;
+            });
+          });
+      });
+    </script>
+  </head>
+  <body id="bod" onresize="screenResized()">
+    <div id="mainContainer">
+      <div id="titleScreen">
+        <div class="start-container">
+          <div id="title">
+            <div id="t1">Maritime Chess</div>
+            <span id="t2"> A scrappy little mutliplayer sandbox </span>
+            <div id="download">
+              <span class="wideDesktopOnly">Download</span><br />
+              <span id="downloadBut" class="material-icons"> get_app </span>
+            </div>
+          </div>
+        </div>
+        <footer onclick="test()">
+          Created by <b>Dason Wang</b
+          ><span class="desktopOnly">, an enlightened intellectual.</span>
+        </footer>
+      </div>
+      <div class="slowBlink" id="startBut">Tap me to begin</div>
+      <div id="play">
+        <div id="status">
+          <div class="gameNav">
+            <button class="button1" id="exitB"></button>
+          </div>
+          <div id="timeAndTurn">
+            <div id="TT" class="wideDesktopOnly">White's Turn</div>
+            <div class="turnBar" id="whiteTT">&nbsp;</div>
+            <div class="turnBar" id="blackTT">&nbsp;</div>
+          </div>
+        </div>
+        <div id="board"></div>
+      </div>
+      <div class="lightbox" id="lightb">
+        <span id="message1"></span><br />
+        <span id="message2"></span> <br />
+        <button id="button4" class="button1"></button>
+      </div>
+      <div id="lobby">
+        <div id="lobbyNav">
+          <button
+            class="button1"
+            onclick="$('#lobbylightbox').show(), $('#roomSettings').show();"
+          >
+            New Game
+          </button>
+          <button class="button1" onclick="console.log('refreshing screen')">Refresh</button>
+          <button class="button1" onclick="resetTitle()">Exit</button>
+          <p id="ponline">Players Online: 0</p>
+        </div>
+        <div id="lobbylightbox">
+          <button
+            class="button2"
+            onclick="$('#lobbylightbox').hide(); $('#scold').hide(); $('#popup').hide()"
+          >
+            X
+          </button>
+          <div id="roomSettings">
+            <label for="submitName">Game Name:</label><br />
+            <input
+              class="setText"
+              type="text"
+              id="submitName"
+              name="gamename"
+              oninput="crop(this)"
+              autocomplete="off"
+            />
+            <br />
+            <label for="submitPass">Password:</label><br />
+            <input
+              class="setText"
+              type="text"
+              id="submitPass"
+              name="password"
+              oninput="crop(this)"
+              autocomplete="off"
+            />
+            <br />
+            <label for="submitMin">Minutes:</label>
+            <input
+              type="number"
+              class="setNum"
+              id="submitMin"
+              name="minset"
+              oninput="crop(this)"
+              min="2"
+            />
+            <br />
+            <label for="submitSec">Seconds:</label>
+            <input
+              type="number"
+              class="setNum"
+              id="submitSec"
+              name="secset"
+              oninput="crop(this)"
+              min="0"
+            />
+            <br />
+            <button class="button1" onclick="createRoom()">START</button>
+          </div>
+          <span id="scold">Tsk tsk. Your time must be 2 minutes or more.</span>
+          <div id="popup">
+            <span id="popupText"></span>
+            <br />
+            <br />
+            <div id="popupPass">
+              <input
+                class="setText"
+                type="text"
+                id="validatePass"
+                name="validatePassword"
+                oninput="crop(this)"
+                autocomplete="off"
+              />
+              <br />
+              <button class="button1" id="validate">ENTER</button>
+            </div>
+          </div>
+        </div>
+        <div id="roomList"></div>
+      </div>
+    </div>
+    <div class="iM" id="indignantMessage1">
+      GODAMNIT STOP RESIZING THE VIEWPORT, YOU MEDDLING HERETIC!!!
+    </div>
+    <div class="iM" id="indignantMessage2">ఠ_ఠ</div>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker
+            .register("service-worker.js")
+            .then((reg) => {
+              console.log("Service worker registered! 😎", reg);
+            })
+            .catch((err) => {
+              console.log("😥 Service worker registration failed: ", err);
+            });
+        });
+      } else {
+        // happens when the app isn't served over a TLS connection (HTTPS)
+        // or if the browser doesn't support service workers
+        console.warn("Service Worker not available");
+      }
+    </script>
+  </body>
+</html>

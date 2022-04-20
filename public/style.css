@@ -1,0 +1,630 @@
+/* Css formatted to match appearance of elements from top to bottom of HTML page. 
+If you cannot find an item being styled, look at general placement and you'll have 
+a good idea of where it fits on the page.*/
+
+/* Color Pallete 
+Coffee Black (background color) #362f2f;
+Blue (main color for nav and footer) #1974c4;
+Mellow Blue (sidecolor) #43a5fa;
+Dim Gold (highlights and text) #edce9b;
+White/ghostwhite (text);
+*/
+
+/*
+Side colors: 
+Light tan (chessboard and panel color) #f8ecda;
+Light Brown (chessboard and panel color) #dac4b1;
+Greyish blue (highlights board, accents) #6390b5;
+Lighter blue (highlights board, accents) #a5b4cb;
+*/
+
+:root {
+  --black: #362f2f;
+  --blue: #1974c4;
+  --mellow: #43a5fa;
+  --gold: #edce9b;
+  --tan: #f8ecda;
+  --brown: #dac4b1;
+  --greyblue: #6390b5;
+  --lightblue: #a5b4cb;
+  --red: #ff595e;
+  --green: #6bf178;
+}
+
+/*First, I'm going to style body and set predefined classes*/
+body {
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+  background-color: var(--black);
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+}
+
+/* These classes enable and disable elements for mobile and desktop browser compatibility*/
+.desktopOnly {
+  display: none;
+}
+
+.wideDesktopOnly {
+  display: none;
+}
+
+.mobileOnly {
+  display: inline-block;
+}
+
+/* When screen is wider than 600px*/
+@media only screen and (min-width: 600px) {
+  .desktopOnly {
+    display: inline-block;
+  }
+
+  .mobileOnly {
+    display: none;
+  }
+}
+
+/* When screen is wider than 700px*/
+@media only screen and (min-width: 700px) {
+  .wideDesktopOnly {
+    display: inline-block;
+  }
+}
+
+button {
+  outline: none;
+  border: 0;
+  padding: 5px;
+  transition: all 300ms linear;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.selectionButton {
+  border: #335 3px solid;
+  color: #335;
+  background-color: var(--gold);
+}
+
+.selectionButton:hover {
+  color: white;
+  background-color: var(--greyblue);
+  border-color: var(--mellow);
+}
+
+.disableClick {
+  cursor: default;
+}
+
+/* Style for title screen */
+#titleScreen {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* The starting screen */
+#title {
+  grid-area: a;
+  padding: 2vh 1.5vh 0.5vh;
+  background-color: var(--blue);
+  border-bottom: var(--gold) 0.4vh solid;
+}
+
+.start-container {
+  /* Puts the grid container at 100% height of screen height, and flexes to allow footer to stay at the bottom. */
+  flex: 1;
+  height: 100%;
+}
+
+#download {
+  display: inline;
+}
+
+#download:hover {
+  cursor: pointer;
+}
+
+footer {
+  background-color: var(--blue);
+  font-size: 0.85em;
+  padding: 8px;
+  border-top: var(--gold) 0.4vh solid;
+}
+
+/* Resposive style for screens larger than 600px in resolution */
+/* All desktop monitors and medium tablets fit into this range */
+@media only screen and (min-width: 600px) {
+  #title {
+    padding: 2vh 1.5vh 2vh;
+    border-bottom: var(--gold) 0.8vh solid;
+  }
+  footer {
+    font-size: 0.95em;
+    padding: 10px;
+    border-top: var(--gold) 0.7vh solid;
+  }
+}
+/* Special resposive style for downloads */
+@media only screen and (min-width: 700px) {
+  #download {
+    position: fixed;
+    top: 0;
+    right: 0;
+    font-size: 1.1em;
+    margin-top: 2.5%;
+    margin-right: 2%;
+  }
+}
+
+/* When screen is less than 220px in width, tell user they are breaking everything. */
+@media only screen and (max-width: 220px) {
+  #mainContainer {
+    display: none;
+  }
+  #indignantMessage1 {
+    display: inline;
+  }
+}
+
+/* When screen is less than 180px in width or height, tell user they are breaking everything. */
+@media only screen and (max-width: 180px), (max-height: 180px) {
+  #mainContainer {
+    display: none;
+  }
+  #indignantMessage1 {
+    display: block;
+  }
+}
+
+/* When screen is less than 100px in width or height, give user a condescending glare. */
+@media only screen and (max-width: 100px), (max-height: 100px) {
+  #indignantMessage1 {
+    display: none;
+  }
+  #indignantMessage2 {
+    display: block;
+  }
+}
+
+/* All game elements */
+#play {
+  width: 100%;
+  visibility: hidden;
+  display: grid;
+  grid-template-columns: 2.5% 95% 2.5%;
+  grid-template-areas:
+    ". st ."
+    ". b .";
+}
+
+/* Shows status of game (checkmate, turn) and also opponent time when in multiplayer */
+#status {
+  box-sizing: border-box;
+  width: 95vw;
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  background-color: #dac4b1;
+  border-radius: 12px 12px 0px 0px;
+  margin-top: 1vh;
+  margin-left: auto;
+  margin-right: auto;
+  grid-area: st;
+}
+
+.gameNav {
+  border-radius: 12px 12px 0 0;
+  background-color: #f8ecda;
+  border-bottom: #335 2px solid;
+}
+
+#commandLogs {
+  color: #335;
+  overflow: hidden;
+}
+
+#status .button1 {
+  width: 7ch;
+}
+
+#status button {
+  margin-left: 1px;
+  margin-right: 1px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  font-family: "Cousine", monospace;
+  font-size: 16px;
+}
+
+#timeAndTurn .turnBar {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  box-sizing: border-box;
+  width: 50%;
+  float: left;
+}
+
+#TT {
+  width: 100%;
+}
+
+#whiteTT {
+  color: black;
+  background-color: #eee;
+  border: #eee 3px solid;
+}
+
+#blackTT {
+  color: white;
+  background-color: #222;
+  border: #222 3px solid;
+}
+
+/* The playing board */
+#board {
+  width: 95vw;
+  margin-left: auto;
+  margin-right: auto;
+  display: none;
+  opacity: 0;
+  grid-area: b;
+  /* You cannot use the board to scroll */
+  touch-action: none;
+}
+
+/* responsive styles for game board on desktop */
+@media only screen and (min-width: 700px) {
+  /* All game elements */
+  #play {
+    display: grid;
+    grid-template-columns: 19vw 62vw 19vw;
+    grid-template-areas:
+      ". st ."
+      ". b .";
+  }
+  #status {
+    margin-top: 3vh;
+    width: 62vw;
+    max-width: 550px;
+  }
+
+  #board {
+    width: 62vw;
+    max-width: 550px;
+  }
+}
+
+/* Lobby styling begins here */
+#lobby {
+  box-sizing: border-box;
+  display: none;
+  visibility: hidden;
+  position: absolute;
+  opacity: 0;
+  top: 50%;
+  left: 5%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  width: 90%;
+  height: 80vh;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+  background-color: #dac4b1;
+  border: #f8ecda 2px solid;
+  border-radius: 20px;
+  color: #335;
+  grid-area: l;
+}
+
+/* button 1 is for blue navigation buttons, button 2 is for x buttons */
+.button1 {
+  outline: none;
+  padding: 5px;
+  background-color: #a5b4cb;
+  color: #335;
+  font-family: "Cousine", monospace;
+  font-weight: bold;
+  border: #335 solid 2px;
+  border-radius: 30px;
+}
+
+.button1:hover {
+  background-color: #6390b5;
+  color: ghostwhite;
+  transition: all 300ms linear;
+  cursor: pointer;
+}
+
+.button2 {
+  outline: none;
+  position: absolute;
+  top: 0.25%;
+  right: 0.5%;
+  height: 2.5ch;
+  width: 2.5ch;
+  padding-bottom: 2px;
+  background-color: #eee;
+  color: #335;
+  border: #335 solid 2px;
+  border-radius: 50%;
+}
+
+.button2:hover {
+  background-color: white;
+  cursor: pointer;
+}
+
+#lobbyNav {
+  width: 100%;
+  border-radius: 16px 16px 0 0;
+  background-color: #f8ecda;
+  border-bottom: #335 2px solid;
+}
+
+#lobbyNav button {
+  margin-top: 5px;
+  font-size: 16px;
+  margin-right: 5px;
+  margin-left: 5px;
+  width: 12ch;
+}
+
+#lobbyNav p {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+#lobbylightbox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  border-radius: 20px;
+  background: rgba(200, 200, 200, 0.9);
+  width: 100%;
+  height: 80vh;
+}
+
+#roomSettings {
+  padding-top: 30px;
+  font-size: calc(0.5vw + 18px);
+}
+
+#roomSettings button {
+  margin-top: 15px;
+  font-size: 25px;
+  display: inline-block;
+  width: 8ch;
+}
+
+#lobbylightbox input {
+  text-align: center;
+  border: gray 1.5px solid;
+  background-color: #eee;
+  border-radius: 5px;
+  outline: none;
+  color: #335;
+  margin-bottom: calc(1vw + 5px);
+}
+
+.setText {
+  font-size: 120%;
+  width: 12ch;
+}
+
+.setNum {
+  font-size: 110%;
+  width: 3.5ch;
+}
+
+#roomList {
+  height: calc(70vh - 75px);
+  padding: 0;
+  margin: 0;
+  overflow-y: scroll;
+}
+
+/* only applies in mobile mode */
+@media only screen and (max-width: 600px) {
+  #roomList span {
+    font-size: 0.6em;
+  }
+}
+
+#roomList div {
+  list-style-type: none;
+  border-bottom: #335 2px solid;
+  padding-top: 10px;
+  padding-bottom: 37px;
+  font-size: 25px;
+  height: auto;
+}
+
+#roomList .material-icons {
+  float: left;
+  padding-left: 1%;
+}
+
+.nameOfTheGame {
+  float: left;
+  padding-left: 2.5%;
+  font-weight: bold;
+}
+
+.nameOfTheGame:hover {
+  cursor: pointer;
+}
+
+.timeOfTheGame {
+  float: right;
+  padding-right: 2.5%;
+  padding-left: 8%;
+}
+
+#TT {
+  font-size: 10px;
+}
+
+.capacityOfTheGame {
+  float: right;
+  padding-right: 1%;
+  font-weight: bold;
+}
+
+#scold {
+  display: none;
+  margin-top: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  color: indianred;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#popup {
+  display: none;
+  font-size: calc(0.8vw + 18px);
+  padding-top: calc(0.8vw + 35px);
+}
+
+#popupText {
+  font-weight: bold;
+}
+
+#popup button {
+  font-size: 25px;
+  width: 8ch;
+}
+
+/* Resposive lobby style for screens larger than 850px in resolution */
+/* All desktop monitors and medium-large tablets fit into this range */
+@media only screen and (min-width: 850px) {
+  #lobby {
+    border-width: 4px;
+  }
+
+  #lobbyNav {
+    height: 60px;
+  }
+
+  #lobbyNav button {
+    float: left;
+    margin-left: 15px;
+    margin-top: 7px;
+    font-size: 20px;
+  }
+
+  #lobbyNav p {
+    float: right;
+    /* ex is the height of current font */
+    margin-top: calc(25px - 1ex);
+    margin-right: 15px;
+    font-size: calc(0.6vw + 12px);
+  }
+
+  #scold {
+    margin-top: 10px;
+    font-size: 20px;
+  }
+
+  /* Use a custom scrollbar when in desktop mode
+  /* width */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #a5b4cb;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #6390b5;
+  }
+
+  /*Style status bar*/
+  #status {
+    border: #f8ecda 1.5px solid;
+  }
+
+  #statusNav {
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
+
+  #timeAndTurn .turnBar {
+    border-radius: 5px;
+    margin-bottom: 8px;
+  }
+
+  #TT {
+    color: dodgerblue;
+    font-weight: bold;
+    font-size: 12px;
+  }
+}
+
+
+/* Style the lightbox, which spans the entire window */
+.lightbox {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(200, 200, 200, 0.9);
+  z-index: 1;
+}
+
+#message1 {
+  display: inline-block;
+  margin-top: 2vh;
+  color: dodgerblue;
+  font-family: "Charm", cursive;
+  font-weight: bold;
+  letter-spacing: 6px;
+  text-shadow: 2px 2px #335;
+  font-size: calc(5vw + 30px);
+}
+
+#message2 {
+  padding: 5px;
+  display: inline-block;
+  margin-top: 2vh;
+  font-weight: bold;
+  font-family: "Cousine", monospace;
+  color: #335;
+  font-size: calc(1.2vw + 15px);
+}
+
+#button4 {
+  margin-top: 2vh;
+  display: inline-block;
+  padding: 10px;
+  font-family: "Cousine", monospace;
+  font-size: calc(1.4vw + 10px);
+}
+
+/* reveal HTML after stylesheet is read */
+html {
+  visibility: visible;
+  opacity: 1;
+}

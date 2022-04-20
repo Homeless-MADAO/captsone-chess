@@ -1,0 +1,85 @@
+/* Styles for all text and text animations*/
+
+#mainContainer {
+  font-family: "Cousine", monospace;
+  color: ghostwhite;
+  text-align: center;
+}
+
+:is(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+  font-weight: normal;
+}
+
+.iM {
+	background-color: white;
+	display: none;
+	font-weight: bold;
+	font-style: italic;
+	font-size: calc(1vw + 1vh + 20px);
+	padding: 2px;
+}
+
+.slowBlink{
+   animation-name: slowBlink;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-play-state: running;
+}
+
+.disableClick {
+	cursor: default;
+}
+
+@keyframes slowBlink {
+    from {opacity: 1;}
+    to {opacity: 0.4;}
+}
+
+/* TITLE SCREEN */
+#t1 {
+  color: white;
+  margin: 0;
+  font-size: calc(2.5vw + 20px);
+  padding-bottom: 1.2vh;
+  font-family: "Press Start 2P", cursive;
+}
+
+#t2 {
+  font-size: calc(0.2vw + 14px);
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+#startBut {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--gold);
+  font-size: calc(0.75vw + 40px);
+  background-color: transparent;
+  font-family: 'VT323', monospace;
+}
+
+#download {
+  font-size: calc(0.32vw + 10px);
+}
+
+@media only screen and (min-width: 600px) {
+  #t1 { 
+    font-size: calc(2.5vw + 12px);
+  }
+  #t2 {
+	font-size: calc(0.4vw + 16px);  
+  }
+}
+
+/* button fonts */
+.button2 {
+  font-size: 14px;
+  font-weight: bold;
+  font-family: "Press Start 2P", cursive;
+}
